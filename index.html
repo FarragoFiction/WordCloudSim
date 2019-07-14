@@ -6,12 +6,6 @@
 
     <script>
 window.onload = function() {
-  var width = 850;
-  var height = 300;
-  var color = d3.scale.category20();
-  //var color = d3.scale.linear().domain([0,1,2,3,4,5,6,10,15,20,100])
-  //.range(["#F00", "#E00", "#D00", "#C00", "#B00", "#A00", "#900", "#800", "#700", "#600", "#500", "#400"]);
-
   var words = [
     {"text":"study","size":40},
     {"text":"motion","size":15},
@@ -75,20 +69,32 @@ window.onload = function() {
     {"text":"subject","size":15},
     {"text":"distinguished","size":15},
   ];
+  startWords(words);
+  }
 
-  var vis = document.getElementById("wordcloud");
-  var layout = d3.layout.cloud().size([width, height])
-    .words(words)
-    .padding(2)
-    .rotate(function() { return (~~(Math.random() * 6) - 3) * 20; })
-    .font("Impact")
-    .fontSize(function(d) { return d.size; })
-    .spiral("archimedean")
-    .on("end", draw);
+  function startWords(words){
+      var width = 850;
+      var height = 300;
+      var vis = document.getElementById("wordcloud");
+      var layout = d3.layout.cloud().size([width, height])
+        .words(words)
+        .padding(2)
+        .rotate(function() { return (~~(Math.random() * 6) - 3) * 20; })
+        .font("Impact")
+        .fontSize(function(d) { return d.size; })
+        .spiral("archimedean")
+        .on("end", draw);
 
-  layout.start();
+      layout.start();
+  }
 
   function draw(words) {
+    var width = 850;
+  var height = 300;
+      var color = d3.scale.category20();
+  //var color = d3.scale.linear().domain([0,1,2,3,4,5,6,10,15,20,100])
+  //.range(["#F00", "#E00", "#D00", "#C00", "#B00", "#A00", "#900", "#800", "#700", "#600", "#500", "#400"]);
+
     d3.select("#wordcloud").append("svg")
       .style("width", "100%")
       .style("height", height+"px")
@@ -107,7 +113,6 @@ window.onload = function() {
       })
       .text(function(d) { return d.text; })
     ;
-  }
  }
     </script>
 </head>
