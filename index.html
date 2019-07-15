@@ -8,10 +8,14 @@
     <script>
 window.onload = function() {
     console.log("hello world main");
-  var words = text2wordmap("(JR) Okay, okay. Calm down. I'll answer. First: I'm jadedResearcher, the Waste of Mind. Uhh, that's about as--as--as much as I can answer. No names, no faces, that kinda thing. Um, moving on, uh... (Sighs) Well, uh... (Laughs) This session is really fucked. Um, there's this thing called corruption. Um, it came from the base of the tree and it makes people weird. Um, I don't wanna be here all day telling you the specifics it's just don't--don't get too close to any of them, right? It's contagious. (Laughs) Don't get kink--don't get too close to corrupt--corrupt trolls. Um, oh, er, there's this thing called--er, your third question is there's this thing called god-tier, right? If you're god-tier you can survive just about anything unless it would make a good story if you died. Uh, the best way to go about, uh, getting around that is to just only do stupid shit. I know I do... Can I have my sandwich now?");
-    console.log(words);
-    startWords(words);
-    startWords(words);
+    $.getJSON( "http://www.farragofiction.com:85/Search/?term=echidna", function( data ) {
+          console.log(data);
+          $.each( data, function( key, val ) {
+                    $("#wordcloud").append( "<h1 style='text-align:center'>"+key+"</h1>" );
+                    startWords(text2wordmap(val.transcript));
+        });
+          alert( "Load was performed." );
+    });
   }
 
   function startWords(words){
@@ -64,6 +68,8 @@ window.onload = function() {
 
 <div id = 'wordcloud'>
     http://jsbin.com/kiwojayoye/1/edit?html,js,output
+    <br>
+    if i can't get slurping javascript working in pure javascript, can always do a shitty loras style hack and have dart write to dom and then javascript read from it...can you listen on change to a regular dom? i bet you can.
 </div>
 </body>
 </html>
