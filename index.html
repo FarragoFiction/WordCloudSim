@@ -1,14 +1,28 @@
 <html>
 <head>
     <script src="scripts/textToWordMap.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/d3.min.js"></script>
+    <script src="scripts/cloud2.js"></script>
 
     <script>
 window.onload = function() {
-    console.log("hello world main");
-    $.getJSON( "http://www.farragofiction.com:85/Search/?term=echidna", function( data ) {
+    var knownKey = "AUDIOLOGSCASETTELIBRARY";
+    var knownPhrases = localStorage.getItem(knownKey);
+    if(knownPhrases == null){
+        knownPhrases = "hello_world";
+    }
+    let term = getUrlParameter("term")
+
+    if(term == null){
+        term = "echidna";
+    }
+    $('<input/>').attr({ type: 'text', id: 'inputJR', name: 'inputJR', value: term }).appendTo('#wordcloud').focus();
+    $('#button').click(function(e) {
+            $(location).attr('href',"index.html?term="+$("#inputJR").val());
+     });
+
+    $.getJSON( "http://www.farragofiction.com:85/Search/?term="+term+"&knownpassPhrases="+knownPhrases, function( data ) {
           console.log(data);
           $.each( data, function( key, val ) {
                     $("#wordcloud").append( "<h1 style='text-align:center'>"+key+"</h1>" );
@@ -17,6 +31,21 @@ window.onload = function() {
           alert( "Load was performed." );
     });
   }
+
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
 
   function startWords(words){
       var width = 850;
@@ -69,7 +98,8 @@ window.onload = function() {
 <div id = 'wordcloud'>
     http://jsbin.com/kiwojayoye/1/edit?html,js,output
     <br>
-    if i can't get slurping javascript working in pure javascript, can always do a shitty loras style hack and have dart write to dom and then javascript read from it...can you listen on change to a regular dom? i bet you can.
+    LOADING...
+    <button id = "button">Submit</button>
 </div>
 </body>
 </html>
